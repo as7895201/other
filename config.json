@@ -1,0 +1,137 @@
+{
+    "log": {
+        "access": "/var/log/v2ray/access.log",
+        "error": "/var/log/v2ray/error.log",
+        "loglevel": "warning"
+    },
+    "inbound": {
+        "port": 12345,
+        "protocol": "vmess",
+        "settings": {
+            "clients": [
+                {
+                    "id": "72a825cc-b0a6-f467-794b-eb8175039788",
+                    "level": 1,
+                    "alterId": 100
+                }
+            ]
+        },
+        "detour": {
+            "to": "vmess-detour-850455"
+        }
+    },
+    "outbound": {
+        "protocol": "freedom",
+        "settings": {}
+    },
+    "inboundDetour": [
+        {
+            "protocol": "vmess",
+            "port": "10000-10110",
+            "tag": "vmess-detour-850455",
+            "settings": {},
+            "allocate": {
+                "strategy": "random",
+                "concurrency": 5,
+                "refresh": 5
+            }
+        },
+        {
+            "port": 443,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "72a825cc-b0a6-f467-794b-eb8175039788",
+                        "level": 1,
+                        "alterId": 100
+                    }
+                ]
+            }
+        },
+        {
+            "port": 1024,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "72a825cc-b0a6-f467-794b-eb8175039788",
+                        "level": 1,
+                        "alterId": 100
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "kcp"
+            }
+        },
+        {
+            "protocol": "vmess",
+            "port": "12000-13110",
+            "tag": "vmess-detour-101573",
+            "settings": {},
+            "allocate": {
+                "strategy": "random",
+                "concurrency": 5,
+                "refresh": 5
+            },
+            "streamSettings": {
+                "network": "kcp"
+            }
+        },
+        {
+            "port": 1023,
+            "protocol": "vmess",
+            "settings": {
+                "clients": [
+                    {
+                        "id": "72a825cc-b0a6-f467-794b-eb8175039788",
+                        "level": 1,
+                        "alterId": 100
+                    }
+                ]
+            },
+            "streamSettings": {
+                "network": "kcp"
+            },
+            "detour": {
+                "to": "vmess-detour-101573"
+            }
+        }
+    ],
+    "outboundDetour": [
+        {
+            "protocol": "blackhole",
+            "settings": {},
+            "tag": "blocked"
+        }
+    ],
+    "routing": {
+        "strategy": "rules",
+        "settings": {
+            "rules": [
+                {
+                    "type": "field",
+                    "ip": [
+                        "0.0.0.0/8",
+                        "10.0.0.0/8",
+                        "100.64.0.0/10",
+                        "127.0.0.0/8",
+                        "169.254.0.0/16",
+                        "172.16.0.0/12",
+                        "192.0.0.0/24",
+                        "192.0.2.0/24",
+                        "192.168.0.0/16",
+                        "198.18.0.0/15",
+                        "198.51.100.0/24",
+                        "203.0.113.0/24",
+                        "::1/128",
+                        "fc00::/7",
+                        "fe80::/10"
+                    ],
+                    "outboundTag": "blocked"
+                }
+            ]
+        }
+    }
+}
